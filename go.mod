@@ -1,6 +1,6 @@
-module mundo-proto-sdk
+module github.com/trancecho/mundo-proto-sdk
 
-go 1.24.1
+go 1.23.6
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
