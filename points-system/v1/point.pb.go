@@ -471,9 +471,9 @@ type SignResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Success            bool      `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message            string    `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	ErrorCode          ErrorCode `protobuf:"varint,3,opt,name=error_code,json=errorCode,proto3,enum=mundo.system.point.ErrorCode" json:"error_code,omitempty"`
-	Points             int64     `protobuf:"varint,4,opt,name=points,proto3" json:"points,omitempty"`                                                     // 签到获得的积分
+	Message   string    `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	ErrorCode ErrorCode `protobuf:"varint,3,opt,name=error_code,json=errorCode,proto3,enum=mundo.system.point.ErrorCode" json:"error_code,omitempty"`
+	Points    int64     `protobuf:"varint,4,opt,name=points,proto3" json:"points,omitempty"`                                                     // 签到获得的积分
 	Experience         int64     `protobuf:"varint,5,opt,name=experience,proto3" json:"experience,omitempty"`                                             // 签到获得的经验
 	ContinuousSignDays int32     `protobuf:"varint,6,opt,name=continuous_sign_days,json=continuousSignDays,proto3" json:"continuous_sign_days,omitempty"` // 连续签到天数
 }
