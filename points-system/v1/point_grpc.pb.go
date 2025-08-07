@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: point/v1/point.proto
+// source: points-system/v1/point.proto
 
 package v1
 
@@ -103,7 +103,7 @@ func (c *userServiceClient) GetAdminStats(ctx context.Context, in *GetUserInfoRe
 }
 
 // UserServiceServer is the server API for UserService service.
-// All implementations should embed UnimplementedUserServiceServer
+// All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 //
 // 用户服务
@@ -118,9 +118,10 @@ type UserServiceServer interface {
 	ProcessLike(context.Context, *LikeRequest) (*CommonResponse, error)
 	// 后台统计接口
 	GetAdminStats(context.Context, *GetUserInfoRequest) (*AdminStats, error)
+	mustEmbedUnimplementedUserServiceServer()
 }
 
-// UnimplementedUserServiceServer should be embedded to have
+// UnimplementedUserServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
@@ -142,7 +143,8 @@ func (UnimplementedUserServiceServer) ProcessLike(context.Context, *LikeRequest)
 func (UnimplementedUserServiceServer) GetAdminStats(context.Context, *GetUserInfoRequest) (*AdminStats, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdminStats not implemented")
 }
-func (UnimplementedUserServiceServer) testEmbeddedByValue() {}
+func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
+func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
 
 // UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to UserServiceServer will
@@ -281,5 +283,5 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "point/v1/point.proto",
+	Metadata: "points-system/v1/point.proto",
 }
