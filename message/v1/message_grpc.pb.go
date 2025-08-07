@@ -4,7 +4,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: proto/message/v1/message.proto
+// source: message/v1/message.proto
 
 package messagev1
 
@@ -62,14 +62,15 @@ func (c *messageServiceClient) GetMessages(ctx context.Context, in *GetMessagesR
 }
 
 // MessageServiceServer is the server API for MessageService service.
-// All implementations should embed UnimplementedMessageServiceServer
+// All implementations must embed UnimplementedMessageServiceServer
 // for forward compatibility.
 type MessageServiceServer interface {
 	SendMessage(context.Context, *SendMessageRequest) (*SendMessageResponse, error)
 	GetMessages(context.Context, *GetMessagesRequest) (*GetMessagesResponse, error)
+	mustEmbedUnimplementedMessageServiceServer()
 }
 
-// UnimplementedMessageServiceServer should be embedded to have
+// UnimplementedMessageServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
@@ -82,7 +83,8 @@ func (UnimplementedMessageServiceServer) SendMessage(context.Context, *SendMessa
 func (UnimplementedMessageServiceServer) GetMessages(context.Context, *GetMessagesRequest) (*GetMessagesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessages not implemented")
 }
-func (UnimplementedMessageServiceServer) testEmbeddedByValue() {}
+func (UnimplementedMessageServiceServer) mustEmbedUnimplementedMessageServiceServer() {}
+func (UnimplementedMessageServiceServer) testEmbeddedByValue()                        {}
 
 // UnsafeMessageServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to MessageServiceServer will
@@ -155,5 +157,5 @@ var MessageService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/message/v1/message.proto",
+	Metadata: "message/v1/message.proto",
 }

@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = "/timerme";//指定生成的go文件的包路径
+
+package timerme;
+
+message CreateQuestionRequest{
+  string title = 1; //问题标题
+  string content = 2; //问题内容
+  repeated string tags = 3; //问题标签
+  uint64 uid = 4; //用户ID
+}
+
+message CreateQuestionResponse{
+  uint64 question_id = 1; //问题ID
+}
+
+message ListQuestionIdsRequest{
+  uint64 uid = 1; //用户ID
+}
+
+message ListQuestionIdsResponse{
+  repeated string question_ids = 1; //问题ID列表
+}
+
+message CreateAnswerRequest{
+  uint64 question_id = 1; //问题ID
+  string content = 2; //答案内容
+}
+
+message CreateAnswerResponse{
+  uint64 answer_id = 1; //答案ID
+}
+message CreateUserRequest{
+  string username = 1; //用户名
+  string password = 2; //密码
+}
+
+message CreateUserResponse{
+  uint64 user_id = 1; //用户ID
+}
+
+service QAService{
+  rpc CreateQuestion(CreateQuestionRequest) returns (CreateQuestionResponse);
+  rpc ListQuestionIds(ListQuestionIdsRequest) returns (ListQuestionIdsResponse);
+  rpc CreateAnswer(CreateAnswerRequest) returns (CreateAnswerResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+}
