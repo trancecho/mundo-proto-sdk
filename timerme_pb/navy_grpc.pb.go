@@ -23,6 +23,7 @@ const (
 	QAService_ListQuestionIds_FullMethodName = "/timerme.QAService/ListQuestionIds"
 	QAService_CreateAnswer_FullMethodName    = "/timerme.QAService/CreateAnswer"
 	QAService_CreateUser_FullMethodName      = "/timerme.QAService/CreateUser"
+	QAService_GetQuestion_FullMethodName     = "/timerme.QAService/GetQuestion"
 )
 
 // QAServiceClient is the client API for QAService service.
@@ -33,6 +34,7 @@ type QAServiceClient interface {
 	ListQuestionIds(ctx context.Context, in *ListQuestionIdsRequest, opts ...grpc.CallOption) (*ListQuestionIdsResponse, error)
 	CreateAnswer(ctx context.Context, in *CreateAnswerRequest, opts ...grpc.CallOption) (*CreateAnswerResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	GetQuestion(ctx context.Context, in *GetQuestionRequest, opts ...grpc.CallOption) (*GetQuestionResponse, error)
 }
 
 type qAServiceClient struct {
@@ -83,6 +85,16 @@ func (c *qAServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest,
 	return out, nil
 }
 
+func (c *qAServiceClient) GetQuestion(ctx context.Context, in *GetQuestionRequest, opts ...grpc.CallOption) (*GetQuestionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetQuestionResponse)
+	err := c.cc.Invoke(ctx, QAService_GetQuestion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QAServiceServer is the server API for QAService service.
 // All implementations must embed UnimplementedQAServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type QAServiceServer interface {
 	ListQuestionIds(context.Context, *ListQuestionIdsRequest) (*ListQuestionIdsResponse, error)
 	CreateAnswer(context.Context, *CreateAnswerRequest) (*CreateAnswerResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	GetQuestion(context.Context, *GetQuestionRequest) (*GetQuestionResponse, error)
 	mustEmbedUnimplementedQAServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedQAServiceServer) CreateAnswer(context.Context, *CreateAnswerR
 }
 func (UnimplementedQAServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedQAServiceServer) GetQuestion(context.Context, *GetQuestionRequest) (*GetQuestionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuestion not implemented")
 }
 func (UnimplementedQAServiceServer) mustEmbedUnimplementedQAServiceServer() {}
 func (UnimplementedQAServiceServer) testEmbeddedByValue()                   {}
@@ -206,6 +222,24 @@ func _QAService_CreateUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _QAService_GetQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuestionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QAServiceServer).GetQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: QAService_GetQuestion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QAServiceServer).GetQuestion(ctx, req.(*GetQuestionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // QAService_ServiceDesc is the grpc.ServiceDesc for QAService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var QAService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _QAService_CreateUser_Handler,
+		},
+		{
+			MethodName: "GetQuestion",
+			Handler:    _QAService_GetQuestion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

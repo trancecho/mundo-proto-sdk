@@ -20,7 +20,7 @@ message ListQuestionIdsRequest{
 }
 
 message ListQuestionIdsResponse{
-  repeated string question_ids = 1; //问题ID列表
+  repeated uint64 question_ids = 1; //问题ID列表
 }
 
 message CreateAnswerRequest{
@@ -40,9 +40,22 @@ message CreateUserResponse{
   uint64 user_id = 1; //用户ID
 }
 
+message GetQuestionRequest{
+  uint64 question_id = 1; //问题ID
+}
+message GetQuestionResponse{
+  string title = 1; //问题标题
+  string content = 2; //问题内容
+  repeated string tags = 3; //问题标签
+  uint64 uid = 4; //用户ID
+  repeated string answers = 5; //答案列表
+}
+
+
 service QAService{
   rpc CreateQuestion(CreateQuestionRequest) returns (CreateQuestionResponse);
   rpc ListQuestionIds(ListQuestionIdsRequest) returns (ListQuestionIdsResponse);
   rpc CreateAnswer(CreateAnswerRequest) returns (CreateAnswerResponse);
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc GetQuestion(GetQuestionRequest) returns (GetQuestionResponse);
 }
