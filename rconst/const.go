@@ -7,6 +7,5 @@ var (
 )
 
 type CommentEvent struct {
-	PostId  uint `json:"post_id"`  // 被评论的帖子ID
-	RobotId uint `json:"robot_id"` // 被评论的帖子的机器人ID
+	PostId uint `json:"post_id"` // 被评论的帖子ID
 }
