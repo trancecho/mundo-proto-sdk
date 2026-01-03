@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package stat.v1;
+
+option go_package = "github.com/trancecho/mundo-proto-sdk/stat/v1;statv1";
+
+// StatService 统计服务
+service StatService {
+  // TrackEvent 上报单个事件
+  rpc TrackEvent(TrackEventRequest) returns (TrackEventResponse);
+  
+  // TrackEventBatch 批量上报事件
+  rpc TrackEventBatch(TrackEventBatchRequest) returns (TrackEventBatchResponse);
+}
+
+// TrackEventRequest 上报事件请求
+message TrackEventRequest {
+  string event_type = 1;       // 事件类型
+  int64 timestamp = 2;         // 事件时间戳（毫秒）
+  
+  uint32 user_id = 3;          // 用户 ID
+  string ip = 4;               // IP 地址
+  string source = 5;           // 来源（如 user_agent）
+  
+  string properties = 6;       // 事件属性（JSON 字符串）
+}
+
+// TrackEventResponse 上报事件响应
+message TrackEventResponse {
+  string event_id = 1;         // 事件 ID
+  bool success = 2;            // 是否成功
+  string message = 3;          // 消息
+}
+
+// TrackEventBatchRequest 批量上报请求
+message TrackEventBatchRequest {
+  repeated TrackEventRequest events = 1;  // 事件列表
+}
+
+// TrackEventBatchResponse 批量上报响应
+message TrackEventBatchResponse {
+  int32 success_count = 1;     // 成功数量
+  int32 failed_count = 2;      // 失败数量
+  repeated string event_ids = 3; // 事件 ID 列表
+  string message = 4;          // 消息
+}
+
