@@ -9,12 +9,11 @@
 package auth
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -89,6 +88,8 @@ type LoginResponse struct {
 	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Uid           int64                  `protobuf:"varint,3,opt,name=uid,proto3" json:"uid,omitempty"`
+	Muid          string                 `protobuf:"bytes,4,opt,name=muid,proto3" json:"muid,omitempty"`                                  // 全局唯一用户ID (UUIDv7)
+	LoginMethod   string                 `protobuf:"bytes,5,opt,name=login_method,json=loginMethod,proto3" json:"login_method,omitempty"` // 首次登录途径 (email/hduhelp)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -144,6 +145,20 @@ func (x *LoginResponse) GetUid() int64 {
 	return 0
 }
 
+func (x *LoginResponse) GetMuid() string {
+	if x != nil {
+		return x.Muid
+	}
+	return ""
+}
+
+func (x *LoginResponse) GetLoginMethod() string {
+	if x != nil {
+		return x.LoginMethod
+	}
+	return ""
+}
+
 var File_auth_auth_proto protoreflect.FileDescriptor
 
 const file_auth_auth_proto_rawDesc = "" +
@@ -153,11 +168,13 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\n" +
 	"grpc_token\x18\x01 \x01(\tR\tgrpcToken\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\"S\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\"\x8a\x01\n" +
 	"\rLoginResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x10\n" +
-	"\x03uid\x18\x03 \x01(\x03R\x03uid2?\n" +
+	"\x03uid\x18\x03 \x01(\x03R\x03uid\x12\x12\n" +
+	"\x04muid\x18\x04 \x01(\tR\x04muid\x12!\n" +
+	"\flogin_method\x18\x05 \x01(\tR\vloginMethod2?\n" +
 	"\vAuthService\x120\n" +
 	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponseBt\n" +
 	"\bcom.authB\tAuthProtoP\x01Z-github.com/betterde/focusly/internal/gen/auth\xa2\x02\x03AXX\xaa\x02\x04Auth\xca\x02\x04Auth\xe2\x02\x10Auth\\GPBMetadata\xea\x02\x04Authb\x06proto3"

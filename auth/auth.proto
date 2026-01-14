@@ -18,5 +18,7 @@ message LoginResponse {
   string token = 1;
   string username = 2;
   int64 uid = 3;
+  string muid = 4;           // 全局唯一用户ID (UUIDv7)
+  string login_method = 5;   // 首次登录途径 (email/hduhelp)
 }
 
